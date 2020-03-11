@@ -4,24 +4,14 @@ on:
   release:
     types: [published]
 
-
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
-    - name: Login to DockerHub Registry
-      run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-    - name: Get the version
-      id: vars
-      run: echo ::set-output name=tag::$(echo ${GITHUB_REF:10})
-    - name: Build the tagged Docker image
-      run: docker build -t heyronhay/self:${{steps.vars.outputs.tag}} .
-    - name: Tag the image with the git hash and latest
-      run: docker tag heyronhay/self:${{steps.vars.outputs.tag}} heyronhay/self:latest
-    - name: Push the tagged Docker image
-      run: docker push heyronhay/self
-
+    - name: Use make to login, build, and push the docker image to docker hub
+      env:
+        TAG: $(echo ${GITHUB_REF:10})
+        DOCKER_USER: ${{ secrets.DOCKERHUB_USERNAME }}
+        DOCKER_PASS: ${{ secrets.DOCKERHUB_PASSWORD }}
+      run: make all
