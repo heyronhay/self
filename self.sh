@@ -13,4 +13,4 @@ docker_error(){
 # Check for docker on the system
 which docker > /dev/null 2>&1 || docker_error
 
-docker run -it --rm -v "$PWD":/workdir -w /workdir "heyronhay/self:latest" self $@
+docker run -it --rm --user $(id -u):$(id -g) -v "$PWD":/workdir -w /workdir heyronhay/self:latest self $@
