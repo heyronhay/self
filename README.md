@@ -10,8 +10,10 @@ Linux/Mac:
     id=$(docker create heyronhay/self:latest); docker cp $id:/tmp/myapp/self.sh ./self; docker rm -v $id
 
 Windows:
-
-    id=$(docker create heyronhay/self:latest); docker cp $id:/tmp/myapp/self.bat .; docker rm -v $id
+    docker create heyronhay/self:latest > temp.txt
+    set /p ID=<temp.txt
+    docker cp %ID%:/tmp/myapp/self.bat .
+    docker rm -v %ID%
 
 Upsides:
  Strangler pattern for refactoring - single point of entry can redirect to legacy scripts
