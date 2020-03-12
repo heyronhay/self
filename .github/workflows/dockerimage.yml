@@ -5,7 +5,7 @@ on:
     types: [published]
 
 jobs:
-  build:
+  build_and_release:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -15,4 +15,4 @@ jobs:
       env:
         DOCKER_USER: ${{ secrets.DOCKERHUB_USERNAME }}
         DOCKER_PASS: ${{ secrets.DOCKERHUB_PASSWORD }}
-      run: make all
+      run: make release

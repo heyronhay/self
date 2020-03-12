@@ -8,14 +8,14 @@ on:
 
 
 jobs:
-  build:
+  build_and_test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Get the version
       run: echo ::set-env name=TAG::$(echo ${GITHUB_REF:10})
-    - name: Use make to login, build, and push the docker image to docker hub
+    - name: Use make build and test (via pytest)
       env:
         DOCKER_USER: ${{ secrets.DOCKERHUB_USERNAME }}
         DOCKER_PASS: ${{ secrets.DOCKERHUB_PASSWORD }}
-      run: make all
+      run: make build_and_test
