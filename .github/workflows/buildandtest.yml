@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Get the version
-      run: echo ::set-env name=TAG::$(echo ${GITHUB_REF:10})
+      run: echo ::set-env name=TAG::$(echo ${GITHUB_SHA:0:7})
     - name: Use make build and test (via pytest)
       env:
         DOCKER_USER: ${{ secrets.DOCKERHUB_USERNAME }}
