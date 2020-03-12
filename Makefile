@@ -14,10 +14,12 @@ NAME   := heyronhay/self
 IMG    := ${NAME}:${TAG}
 LATEST := ${NAME}:latest
  
-.PHONY: build push login all
+.PHONY: build push login test build_and_test release
 
 build:
 	@docker build -t ${IMG} .
+
+tag:
 	@docker tag ${IMG} ${LATEST}
  
 push:
@@ -26,4 +28,9 @@ push:
 login:
 	@echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin
 
-all: login build push
+test:
+	@docker run ${IMG} pytest /tmp/myapp
+
+build_and_test: build test
+
+release: login build tag push
