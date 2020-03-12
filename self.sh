@@ -3,7 +3,7 @@
 # Wrapper for a docker-based application.  Make sure this script is executable (chmod 755 self.sh)
 # and put it in your PATH.
 
-WRAPPER_VERSION="v0.0.8"
+WRAPPER_VERSION="v0.1.0"
 
 docker_error(){
     echo "ERROR: docker is not installed, or not in your PATH"
