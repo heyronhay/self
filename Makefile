@@ -18,10 +18,8 @@ LATEST := ${NAME}:latest
 
 build:
 	@docker build -t ${IMG} .
-
-tag:
 	@docker tag ${IMG} ${LATEST}
- 
+
 push:
 	@docker push ${NAME}
  
@@ -33,4 +31,4 @@ test:
 
 build_and_test: build test
 
-release: login build tag push
+release: login build push
