@@ -10,6 +10,7 @@ Linux/Mac:
     id=$(docker create heyronhay/self:latest); docker cp $id:/tmp/myapp/self.sh ./self; docker rm -v $id
 
 Windows:
+
     docker create heyronhay/self:latest > temp.txt
     set /p ID=<temp.txt
     docker cp %ID%:/tmp/myapp/self.bat .
