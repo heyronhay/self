@@ -3,7 +3,7 @@
 # Wrapper for a docker-based application.  Make sure this script is executable (chmod 755 self.sh)
 # and put it in your PATH.
 
-WRAPPER_VERSION="v0.1.1"
+WRAPPER_VERSION="v0.1.2"
 
 has_param() {
     local term="$1"
