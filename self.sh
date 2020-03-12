@@ -14,9 +14,9 @@ check_and_update_wrapper(){
     out=$(docker pull heyronhay/self:latest)
 
     if [[ $out != *"up to date"* ]]; then    
-        id=$(docker create heyronhay/self:latest); docker cp $id:/tmp/myapp/self.sh ./self; docker rm -v $id
+        id=$(docker create heyronhay/self:latest); docker cp $id:/tmp/myapp/self.sh ./self; docker rm -v $id > /dev/null
 
-        exec /bin/bash updateScript.sh
+        exec /bin/bash self $@
     fi
 }
 
