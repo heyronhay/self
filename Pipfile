@@ -6,3 +6,10 @@ verify_ssl = true
 [packages]
 requests = "*"
 click = "*"
+dnspython = "*"
+ipwhois = "*"
+requests-mock = "*"
+pytest = "*"
+
+[requires]
+python_version = "3.7"
