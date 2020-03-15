@@ -80,6 +80,8 @@ or use Pipenv:
 * Execution time - Overhead of running the docker image, minimal.
 * No GUI - Technically you can get a GUI by using X-Windows, but that is clunky and requires installing extra software on Mac & Windows.  Could also run a web server and just have a webapp like Jupyter.
 
+### Known Issues
+* If `self` is in multiple locations, only one will be updates (docker pull gets the latest and updates the `self` that is executed, but no others).  Workaround is to compare wrapper version to version of wrapper inside the docker, and copy if different.
 
 ### Security
 * Using env variables
