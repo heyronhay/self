@@ -5,6 +5,7 @@
 
 WRAPPER_VERSION="v0.1.2"
 
+# Check to see if the given paramater exists in the parameter list
 has_param() {
     local term="$1"
     shift
@@ -24,6 +25,8 @@ docker_error(){
 check_and_update_wrapper(){
     echo -n "Checking for latest version..."
     out=$(docker pull heyronhay/self:latest)
+
+    # Crossplatform way of getting the realpath, as OS X doesn't have the "realpath" command
     fullpath=$(python -c "import os; print(os.path.realpath('$0'))")
     if [[ $out != *"up to date"* ]]; then
         echo -n "new version detected, updating..."

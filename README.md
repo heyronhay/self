@@ -7,9 +7,9 @@ Self updating docker-based application
 Self is a docker-based CLI application that will update itself when it is run.  It is composed of two parts:
 
 1. A docker-ized Python application that, as a demonstration, can perform various lookups from various APIs.  Python was used, but any language can be included.
-1. `self` the wrapper script that passes arguments into the docker image when it runs.
+1. `self` the wrapper script that passes arguments into the docker image when it runs.  This wrapper script is pulled from the docker image itself.
 
-On every run, it will attempt to pull a new version from Docker Hub, and if successful, will "re-install" the self wrapper application.
+On every run, it will attempt to pull a new version from Docker Hub allowing for automatic updates.  Additionally, the wrapper script will self-update on a successful pull.
 
 ## Repository Tour
 
@@ -72,6 +72,7 @@ or use Pipenv:
 * Platform agnostic - other than the wrapper script, everything is in the docker image, and can be run on any platform that supports docker
 * Amenable to container workflows - since the application is container based already, using it in various container environments is more straightforward (k8s, docker-compose, docker swarm, etc)
 * Strangler pattern for refactoring - single point of entry can redirect to legacy scripts
+* Security - using credentials for Docker Hub allows only those with access to pull the application.  Using another service could give more fine grained control (IAM in AWS docker registry, for instance)
 
 ### Downsides
 * Need Docker - Not a big deal on Linux, but there are some maintenance issues with Mac/Windows due to the need to how docker is run (in a VM) on those platforms.
@@ -82,10 +83,9 @@ or use Pipenv:
 
 ### Known Issues
 * If `self` is in multiple locations, only one will be updates (docker pull gets the latest and updates the `self` that is executed, but no others).  Workaround is to compare wrapper version to version of wrapper inside the docker, and copy if different.
-
-### Security
-* Using env variables
-* Using github secrets
-
-### Improvements
+* No significant input sanitization or any real attempts to verify the inputs are well formatted
+* Checks for docker, but lots of things could go wrong still.  There would like need to be several rounds of robustness development performed.  Although that is mostly with the wrapper, an advantage to using Docker for the main application is that robustness already exists.
 * Can't access outside of directory command is executed in, can make a root volume, and translate paths in the self wrapper script
+* Instead of always pulling from Docker to see if there is a new image, it would be nice if it checked the tag list and then determined from that if there was a new image, so the "updating" message could be displayed before the large download.
+* When developing locally, changes to `self.sh` (or `self.bat`) can be overwritten if you don't build the docker image, since it tries to pull the latest, and if it is updated on the docker hub, it will pull the `self.sh` (or `self.bat`) out of the image again.
+* Uses simple grep to determine if the docker pull is up to date, could use a more robust mechanism.
