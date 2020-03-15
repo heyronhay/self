@@ -15,3 +15,11 @@ def test_agilfy_no_result(requests_mock):
     result = runner.invoke(agilfy, ['Peter'])
     assert result.exit_code == 0
     assert "hasn't been seen before" in result.output
+
+def test_agilfy_timeout(requests_mock):
+    requests_mock.get('https://api.agify.io/?name=Peter', exc=requests.exceptions.ConnectTimeout)
+    runner = CliRunner()
+    result = runner.invoke(agilfy, ['Peter'])
+    assert result.exit_code == 0
+    assert "Agilfy endpoint lookup failed" in result.output
+

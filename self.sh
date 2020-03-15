@@ -24,7 +24,7 @@ docker_error(){
 check_and_update_wrapper(){
     echo -n "Checking for latest version..."
     out=$(docker pull heyronhay/self:latest)
-    fullpath=$(realpath $0)
+    fullpath=$(python -c "import os; print(os.path.realpath('$0'))")
     if [[ $out != *"up to date"* ]]; then
         echo -n "new version detected, updating..."
         id=$(docker create heyronhay/self:latest); docker cp $id:/tmp/myapp/self.sh $fullpath; docker rm -v $id > /dev/null
