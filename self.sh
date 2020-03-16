@@ -22,6 +22,7 @@ docker_error(){
     exit 1
 }
 
+
 check_and_update_wrapper(){
     echo -n "Checking for latest version..."
     out=$(docker pull heyronhay/self:latest)

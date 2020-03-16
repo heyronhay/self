@@ -10,6 +10,7 @@ dnspython = "*"
 ipwhois = "*"
 requests-mock = "*"
 pytest = "*"
+pytest-mock = "*"
 
 [requires]
 python_version = "3.7"

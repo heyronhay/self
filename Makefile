@@ -27,7 +27,7 @@ login:
 	@echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin
 
 test:
-	@docker run ${IMG} pytest /tmp/myapp
+	@docker run ${IMG} pytest -v /tmp/myapp
 
 build_and_test: build test
 

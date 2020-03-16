@@ -2,6 +2,8 @@
 
 Self updating docker-based application
 
+Github page: https://github.com/heyronhay/self
+
 ## Overview
 
 Self is a docker-based CLI application that will update itself when it is run.  It is composed of two parts:
@@ -44,7 +46,19 @@ Windows:
 
 After installation, you can just use the `self` script, which is, itself, self-updating.
 
-    self --help
+    > self --help
+    Checking for latest version...up to date!
+    Usage: self [OPTIONS] COMMAND [ARGS]...
+
+    Options:
+    --help  Show this message and exit.
+
+    Commands:
+    agilfy   Guesses age based on a given first name
+    ip       Subcommands concerning IP addresses
+    pokemon  Looks up some data about the pokemon names in the given file
+
+The `pokemon` command takes a file with the name of a pokemon on each line to show that `self` can access files in the host.
 
 ## Local Debugging of Python application
 
@@ -75,7 +89,7 @@ or use Pipenv:
 * Security - using credentials for Docker Hub allows only those with access to pull the application.  Using another service could give more fine grained control (IAM in AWS docker registry, for instance)
 
 ### Downsides
-* Need Docker - Not a big deal on Linux, but there are some maintenance issues with Mac/Windows due to the need to how docker is run (in a VM) on those platforms.
+* Needs Docker - Not a big deal on Linux, but there are some maintenance issues with Mac/Windows due to the need to how docker is run (in a VM) on those platforms.
 * Application bloat - the base docker image is around 100 MB compressed.  Not as big a deal in today's world, but still a minor issue.  After the first execution, though, the base OS will be cached and that generally won't change.
 * Path issues - As is, the wrapper script uses the current working directory as a volume into the docker image.  However, this prevents access to files outside of the current path tree.  So `self ../file.txt` is unavailable to the application.  This can be solved by mapping the root volume of the host to the container, and then turning all relative paths into full paths in the wrapper script.  Doable, but clunky.  Probably the most serious limitation of this approach.
 * Execution time - Overhead of running the docker image, minimal.
@@ -89,3 +103,5 @@ or use Pipenv:
 * Instead of always pulling from Docker to see if there is a new image, it would be nice if it checked the tag list and then determined from that if there was a new image, so the "updating" message could be displayed before the large download.
 * When developing locally, changes to `self.sh` (or `self.bat`) can be overwritten if you don't build the docker image, since it tries to pull the latest, and if it is updated on the docker hub, it will pull the `self.sh` (or `self.bat`) out of the image again.
 * Uses simple grep to determine if the docker pull is up to date, could use a more robust mechanism.
+* The windows wrapper script has some issues - it leaves a bunch of files around, sometimes seems to lag behind a version when self-updating the wrapper script, etc.  It's been a while since I did Windows programming, so it is crufty!  A bit more time would have to be spent with it to make it more robust.
+
